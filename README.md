@@ -253,11 +253,18 @@ c_puct = 1.5
 
 ## License
 
-**Code**: MIT
+**CC BY-NC 4.0** — Attribution-NonCommercial 4.0 International.
 
-**Weights**: CC BY-NC 4.0 (non-commercial)
+You may share and adapt the material for non-commercial purposes, provided you
+give appropriate credit and link to the license. **Commercial use is not
+permitted.** This covers the model weights, the training pipeline, the logo and
+the character illustration.
 
-Training data comes from Stockfish self-play and carries no licensing issues.
+See [LICENSE](LICENSE) for the full legal code.
+
+Training data comes from Stockfish self-play and carries no licensing issues
+on its own; the non-commercial restriction is a project-level choice that keeps
+the whole series (0.1 and 0.2) under one license.
 
 ---
 
