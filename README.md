@@ -1,10 +1,14 @@
 # Benzene-0.2-Alkane
 
+<img src="assets/benzene-icon.png" width="110" align="left" hspace="16" vspace="4">
+
 **Chess neural network · 6.85M parameters · trained from scratch**
 
 Benzene-0.2 is the chess line of the Benzene series. 0.2 uses chemical molecule
 names, where each molecule is an independent model variant with its own
-playing personality:
+playing personality.
+
+<br clear="left"/>
 
 | Variant | Chemistry | Role | Params | Status |
 |---|---|---|---|---|
@@ -263,3 +267,26 @@ Training data comes from Stockfish self-play and carries no licensing issues.
 Benzene-0.2-Alkane
 https://github.com/CollinsLiu615/Benzene
 ```
+
+---
+
+## Artwork
+
+<img src="assets/benzene-mascot.jpg" width="260" align="right" hspace="16" vspace="4">
+
+The character illustration is AI-generated with **Seedream 5.5**
+(model id `seedream5.5`), depicting the Benzene persona holding white and
+black chess pieces.
+
+The logo is a benzene ring drawn in circuit-board style, echoing the
+"chemistry" naming convention of the series.
+
+<br clear="right"/>
+
+---
+
+## Acknowledgements
+
+- **Stockfish 19** — training labels come from self-play at depth 8
+- **python-chess** — board representation, move generation, PGN handling
+- **PyTorch** — everything was trained on CPU, no GPU used
