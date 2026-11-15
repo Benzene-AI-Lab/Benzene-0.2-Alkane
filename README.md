@@ -253,47 +253,28 @@ c_puct = 1.5
 
 ## License
 
-**CC BY-NC 4.0** — Attribution-NonCommercial 4.0 International.
+**CC BY-NC 4.0** — [Attribution-NonCommercial 4.0 International](LICENSE).
 
-You may share and adapt the material for non-commercial purposes, provided you
-give appropriate credit and link to the license. **Commercial use is not
-permitted.** This covers the model weights, the training pipeline, the logo and
-the character illustration.
+### What you may do
 
-See [LICENSE](LICENSE) for the full legal code.
+- **Share** — copy and redistribute the material in any medium or format
+- **Adapt** — remix, transform, and build upon the material
+- Use it for research, education, personal learning and evaluation
+
+### What you may not do
+
+- **Use the material for commercial purposes**
+- Sublicense the material under different terms
+
+### What you must do
+
+- Give appropriate credit to **CollinsLiu615**
+- Link to the license
+- Indicate if changes were made
+
+The license covers the model weights, the training pipeline, the logo and the
+character illustration (AI-generated with Seedream 5.5).
 
 Training data comes from Stockfish self-play and carries no licensing issues
 on its own; the non-commercial restriction is a project-level choice that keeps
 the whole series (0.1 and 0.2) under one license.
-
----
-
-## Citation
-
-```
-Benzene-0.2-Alkane
-https://github.com/CollinsLiu615/Benzene
-```
-
----
-
-## Artwork
-
-<img src="assets/benzene-mascot.jpg" width="260" align="right" hspace="16" vspace="4">
-
-The character illustration is AI-generated with **Seedream 5.5**
-(model id `seedream5.5`), depicting the Benzene persona holding white and
-black chess pieces.
-
-The logo is a benzene ring drawn in circuit-board style, echoing the
-"chemistry" naming convention of the series.
-
-<br clear="right"/>
-
----
-
-## Acknowledgements
-
-- **Stockfish 19** — training labels come from self-play at depth 8
-- **python-chess** — board representation, move generation, PGN handling
-- **PyTorch** — everything was trained on CPU, no GPU used
