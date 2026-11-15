@@ -3,4 +3,7 @@ __pycache__/
 .DS_Store
 *.log
 *.npz
+
+# 权重通过 Release 分发，不入库
+modelscope/benzene-0.2-alkane.pt
 weights/*.pt
