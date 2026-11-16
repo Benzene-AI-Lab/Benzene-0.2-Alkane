@@ -1,3 +1,19 @@
+---
+tasks:
+- other
+license: cc-by-nc-4.0
+frameworks: PyTorch
+tags:
+  - chess
+  - alphazero
+  - neural-network
+  - mcts
+  - pytorch
+  - from-scratch
+  - 6.85M
+  - self-play
+---
+
 # Benzene-0.2-Alkane
 
 <img src="assets/benzene-icon.png" width="110" align="left" hspace="16" vspace="4">
@@ -105,7 +121,6 @@ echo -e "uci\nisready\nposition startpos\ngo movetime 1000\nquit" | \
 
 支持的选项：`Simulations`（默认 800）
 
-
 ## 已知限制
 
 **① 过拟合**：训练 loss 1.0，验证停在 3.46。64 样本/参数，远低于经验比例。
@@ -120,11 +135,11 @@ echo -e "uci\nisready\nposition startpos\ngo movetime 1000\nquit" | \
 
 ```
 benzene-0.2-alkane.pt     79 MB  权重
-src/                      11 个脚本（棋盘编码、网络、MCTS、对弈界面、训练）
+src/                      12 个脚本（棋盘编码、网络、MCTS、对弈界面、UCI、训练）
 assets/                   图标与立绘
 ```
 
-代码仓库：https://github.com/CollinsLiu615/Benzene-0.2-Alkane
+代码仓库：https://github.com/Benzene-AI-Lab/Benzene-0.2-Alkane
 
 ## 立绘说明
 

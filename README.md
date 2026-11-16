@@ -103,7 +103,7 @@ Distribution   win 11.8% · draw 77.1% · loss 11.1%
 ## Download weights
 
 Weights are **not** stored in this repository. Download them from the
-[Releases](https://github.com/CollinsLiu615/Benzene-0.2-Alkane/releases) page:
+[Releases](https://github.com/Benzene-AI-Lab/Benzene-0.2-Alkane/releases) page:
 
 ```
 benzene-0.2-alkane.pt     79 MB

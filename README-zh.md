@@ -124,7 +124,7 @@ src/                      11 个脚本（棋盘编码、网络、MCTS、对弈�
 assets/                   图标与立绘
 ```
 
-代码仓库：https://github.com/CollinsLiu615/Benzene-0.2-Alkane
+代码仓库：https://github.com/Benzene-AI-Lab/Benzene-0.2-Alkane
 
 ## 立绘说明
 
