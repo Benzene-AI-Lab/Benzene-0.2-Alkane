@@ -86,6 +86,26 @@ python src/serve_chess.py --ckpt weights/benzene-0.2-alkane.pt --port 8766
 
 支持难度选择（200/800/1600/3200 次 MCTS），可导出 PGN。
 
+### 在棋类软件里使用（UCI 协议）
+
+`src/uci.py` 实现了 UCI 协议，可以直接接入 CuteChess、Arena、
+Lichess（配合 lichess-bot）、Fritz、ChessBase 等任何支持 UCI 的软件。
+
+```
+命令:  python
+参数:  /path/to/src/uci.py --ckpt /path/to/benzene-0.2-alkane.pt --sims 800
+```
+
+命令行测试：
+
+```bash
+echo -e "uci\nisready\nposition startpos\ngo movetime 1000\nquit" | \
+    python src/uci.py --ckpt weights/benzene-0.2-alkane.pt
+```
+
+支持的选项：`Simulations`（默认 800）
+
+
 ## 已知限制
 
 **① 过拟合**：训练 loss 1.0，验证停在 3.46。64 样本/参数，远低于经验比例。

@@ -155,6 +155,29 @@ python src/gen_labels.py --games 1000 --depth 8 --multipv 3 --out labels.npz
 python src/train_gpu.py --data labels.npz --scale alkane --epochs 30 --batch-size 512
 ```
 
+### Use it in a chess GUI (UCI)
+
+`src/uci.py` speaks the UCI protocol, so the engine works in CuteChess, Arena,
+Lichess (via lichess-bot), Fritz, ChessBase and anything else that accepts a
+UCI engine.
+
+Point the GUI at:
+
+```
+Command:  python
+Args:     /path/to/src/uci.py --ckpt /path/to/benzene-0.2-alkane.pt --sims 800
+```
+
+Or drive it by hand:
+
+```bash
+echo -e "uci\nisready\nposition startpos\ngo movetime 1000\nquit" | \
+    python src/uci.py --ckpt weights/benzene-0.2-alkane.pt
+```
+
+Supported options: `Simulations` (spin, default 800).
+
+
 ---
 
 ## Known limitations
