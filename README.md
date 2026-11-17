@@ -157,26 +157,94 @@ python src/train_gpu.py --data labels.npz --scale alkane --epochs 30 --batch-siz
 
 ### Use it in a chess GUI (UCI)
 
-`src/uci.py` speaks the UCI protocol, so the engine works in CuteChess, Arena,
-Lichess (via lichess-bot), Fritz, ChessBase and anything else that accepts a
-UCI engine.
+`benzene` is a self-contained launcher that speaks UCI, so the engine works in
+CuteChess, Arena, Lichess (via lichess-bot), Fritz, ChessBase and anything else
+that accepts a UCI engine.
 
-Point the GUI at:
+**It follows the same convention as lc0**: point the GUI at the launcher, and
+it finds its own weights.
 
 ```
-Command:  python
-Args:     /path/to/src/uci.py --ckpt /path/to/benzene-0.2-alkane.pt --sims 800
+Engine command:  /path/to/benzene
+Engine name:     benzene
 ```
 
-Or drive it by hand:
+In `config.yml` for lichess-bot:
+
+```yaml
+engine:
+  dir: "/path/to/this/folder"
+  name: "benzene"
+  protocol: "uci"
+  uci_options:
+    Simulations: 200
+```
+
+**Weight discovery** — the launcher looks for `*.pt` in its own folder, then in
+`weights/`. Override with the `BENZENE_CKPT` environment variable.
+
+**UCI options**
+
+| Option | Default | Meaning |
+|---|---|---|
+| `Simulations` | 800 | MCTS simulations per move |
+| `Temperature` | 0 | sampling temperature (0 = best move) |
+| `Hash` | 128 | accepted for GUI compatibility, not used |
+| `Threads` | 1 | accepted for compatibility, single-threaded |
+| `Move Overhead` | 30 | ms reserved from the clock budget |
+| `Ponder` | false | not supported |
+| `UCI_Chess960` | false | not supported |
+
+**Time management** — the engine honours `wtime`/`btime`/`winc`/`binc`,
+`movestogo` and `movetime`, converting the available time into a simulation
+count. On a 2015 dual-core laptop this gives about 2 s per move at 2'+1" and
+8 s at 40 moves in 15 minutes.
 
 ```bash
-echo -e "uci\nisready\nposition startpos\ngo movetime 1000\nquit" | \
-    python src/uci.py --ckpt weights/benzene-0.2-alkane.pt
+printf 'uci\nisready\nposition startpos\ngo movetime 1000\nquit\n' | ./benzene
 ```
 
-Supported options: `Simulations` (spin, default 800).
+### Call it from Python
 
+```python
+import torch, chess
+from net import build
+from engine import MCTS, pick_move
+
+ck = torch.load("weights/benzene-0.2-phenol.pt", map_location="cpu", weights_only=False)
+net = build(ck["config"]["scale"])
+net.load_state_dict(ck["model"])
+net.eval()
+
+board = chess.Board()
+mcts = MCTS(net)
+root = mcts.run(board, simulations=800)
+_, mv = pick_move(root, temperature=0.0)
+print(mv)   # e2e4
+```
+
+---
+
+## Architecture
+
+```
+Input   19 × 8 × 8 feature planes
+          0-5    own   pawn knight bishop rook queen king
+          6-11   enemy pawn knight bishop rook queen king
+          12-15  castling rights
+          16     en-passant target
+          17     side to move
+          18     move number / 100
+
+Trunk   ResNet, 16 blocks × 192 channels
+          stem   Conv3×3(19→192) + BN + ReLU
+          block  Conv3×3 → BN → ReLU → Conv3×3 → BN, residual add
+
+policy  Conv1×1(192→16) → FC(1536 → 4672)
+value   Conv1×1(192→32) → FC(3072→128) → FC(128→1) → tanh
+```
+
+**15,722,849 parameters.**
 
 ---
 

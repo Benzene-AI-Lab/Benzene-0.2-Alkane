@@ -104,22 +104,67 @@ python src/serve_chess.py --ckpt weights/benzene-0.2-alkane.pt --port 8766
 
 ### 在棋类软件里使用（UCI 协议）
 
-`src/uci.py` 实现了 UCI 协议，可以直接接入 CuteChess、Arena、
+`benzene` 是一个自带 UCI 协议的启动器，可接入 CuteChess、Arena、
 Lichess（配合 lichess-bot）、Fritz、ChessBase 等任何支持 UCI 的软件。
 
+**沿用 lc0 的惯例**：把 GUI 指向启动器即可，权重由它自己找。
+
 ```
-命令:  python
-参数:  /path/to/src/uci.py --ckpt /path/to/benzene-0.2-alkane.pt --sims 800
+引擎命令:  /path/to/benzene
+引擎名称:  benzene
 ```
 
-命令行测试：
+lichess-bot 的 `config.yml`：
+
+```yaml
+engine:
+  dir: "/path/to/this/folder"
+  name: "benzene"
+  protocol: "uci"
+  uci_options:
+    Simulations: 200
+```
+
+**权重查找顺序**：先找同目录下的 `*.pt`，再找 `weights/`。
+可用环境变量 `BENZENE_CKPT` 指定。
+
+**UCI 选项**
+
+| 选项 | 默认 | 说明 |
+|---|---|---|
+| `Simulations` | 800 | 每步 MCTS 模拟次数 |
+| `Temperature` | 0 | 采样温度（0 = 选最优） |
+| `Hash` | 128 | 为兼容 GUI 而接受，实际不使用 |
+| `Threads` | 1 | 单线程推理，接受但不变 |
+| `Move Overhead` | 30 | 从时钟里预留的毫秒数 |
+| `Ponder` | false | 不支持 |
+| `UCI_Chess960` | false | 不支持 |
+
+**时间管理**：引擎会读 `wtime`/`btime`/`winc`/`binc`、`movestogo` 和
+`movetime`，把可用时间换算成模拟次数。在 2015 款双核笔记本上，
+2+1" 约 2 秒/步，40 步 15 分钟约 8 秒/步。
 
 ```bash
-echo -e "uci\nisready\nposition startpos\ngo movetime 1000\nquit" | \
-    python src/uci.py --ckpt weights/benzene-0.2-alkane.pt
+printf 'uci\nisready\nposition startpos\ngo movetime 1000\nquit\n' | ./benzene
 ```
 
-支持的选项：`Simulations`（默认 800）
+## 架构
+
+```
+输入    19 × 8 × 8 特征平面
+         0-5   己方 兵车马象后王
+         6-11  对方 兵车马象后王
+         12-15 王车易位权利
+         16    吃过路兵目标
+         17    轮到谁走
+         18    回合数 / 100
+
+主干    ResNet 16 块 × 192 通道
+policy  Conv1×1(192→16) → FC(1536 → 4672)
+value   Conv1×1(192→32) → FC(3072→128) → FC(128→1) → tanh
+```
+
+**参数量 15,722,849**
 
 ## 已知限制
 
